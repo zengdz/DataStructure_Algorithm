@@ -19,6 +19,8 @@ void SelfSwap(int &a,int &b)
 
 void QuickSort(int arr[], int low, int high)
 {
+	if (arr == nullptr || low > high || high < 0)
+		return;
 	if(low < high){
 		/*---------------partition----------------*/
 		// 相当于partition函数的形参赋值过程
@@ -45,8 +47,10 @@ void QuickSort(int arr[], int low, int high)
 // 这个快速排序的边界索引处理容易出错
 void QuickSort2(int s[], int l, int r)
 {
-    if (l < r)  {  
-        //Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换
+	if (s == nullptr || l > r || r < 0)
+		return;
+	if (l < r)  {
+        //Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换,中间作枢轴
         int i = l, j = r, x = s[l];  
         while (i < j) {  
             while(i < j && s[j] >= x) // 从右向左找第一个小于x的数  
@@ -78,7 +82,7 @@ void PrintArrayResult(const char *s, const int arr[], const int length)
 
 int main()
 {
-	int a[]={8,2,5,4,5,7,3,13,23,8,21,66,33,8};
+	int a[] = {8,2,5,4,5,7,3,13,23,8,21,66,33,8};
 	int length = sizeof(a) / sizeof(a[0]);
 	PrintArrayResult("Formal unsorted array:", a, length);
 
