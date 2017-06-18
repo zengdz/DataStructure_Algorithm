@@ -1,4 +1,9 @@
-﻿#include <stdio.h>
+﻿/*
+ * 链表基础操作：添加和删除
+ * 可以给空的链表进行添加，但是不能从空链表删除东西
+ * 所以链表的删除需要做链表是否为空的异常处理，而添加是要考虑空链表的情况
+ */
+#include <stdio.h>
 #include <iostream>
 
 using namespace std;
@@ -68,19 +73,23 @@ void RemoveNode(Node **pHead, int value)
 	if (pHead == nullptr || *pHead == nullptr)
 		return;
 	Node *pToBeDeleted = nullptr;
+	// 如果第一个节点就是要删除的节点
 	if ((*pHead)->data == value) {
-		pToBeDeleted = *pHead;
-		*pHead = (*pHead)->next;
+		pToBeDeleted = *pHead; // 锁定待删除节点
+		*pHead = (*pHead)->next; // 头指针指向后一个节点
 	}
 	else {
 		Node *pNode = *pHead;
 		while (pNode->next != nullptr && pNode->next->data != value)
 			pNode = pNode->next;
+		// 定位到目标节点的前一个位置
 		if (pNode->next != nullptr && pNode->next->data == value) {
-			pToBeDeleted = pNode->next;
-			pNode->next = pNode->next->next;
+			pToBeDeleted = pNode->next; // 锁定待删除节点
+			pNode->next = pNode->next->next; // 连接被删节点的前后节点
 		}
 	}
+	// 如果指针不为空说明找到被删节点
+	// 释放指针指向的内存，以及把指针设为空指针
 	if (pToBeDeleted != nullptr) {
 		delete pToBeDeleted;
 		pToBeDeleted = nullptr;
