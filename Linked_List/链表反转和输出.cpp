@@ -1,11 +1,16 @@
-﻿
+﻿/*
+ * 链表顺序输出或者翻转输出
+ * 可以是不改变链表而翻转输出，也可以是修改链表进行翻转
+ * 可以是使用迭代，也可以是使用递归实现
+ */
 #include <iostream>
+#include <stack>
 
 using namespace std;
 
 struct Node {
 	int data;
-	struct Node *next;
+	Node *next; // 对于C++可以省略前面的struct关键字
 };
 
 void AddToHead(Node **pHead, int value)
@@ -27,6 +32,22 @@ void printList(Node *n)
 	cout << endl;
 }
 
+// 不修改链表，迭代逆序输出，使用栈实现
+void printListReverse(Node *n)
+{
+	stack<Node*> s;
+	while (n != nullptr) {
+		s.push(n);
+		n = n->next;
+	}
+	while (!s.empty()) {
+		Node* temp = s.top();
+		cout << temp->data << " ";
+		s.pop();
+	}
+	cout << endl;
+}
+
 // 递归顺序输出链表
 void printListRecursive(Node *n)
 {
@@ -39,7 +60,7 @@ void printListRecursive(Node *n)
 }
 
 // 递归逆序输出链表
-// 如果是要把链表元素逆序保存到向量
+// 可在调用函数后加一个换行语句
 void printListReverseRecursive(Node *n)
 {
 	if (n == nullptr) {
@@ -49,7 +70,7 @@ void printListReverseRecursive(Node *n)
 	cout << n->data << " ";
 }
 
-// 改变原链表结构，修改指针的指向
+// 改变原链表结构，迭代实现链表翻转
 // 画出逻辑图更好理解代码流程
 void LinkListReverse(Node **pHead)
 {
@@ -67,15 +88,32 @@ void LinkListReverse(Node **pHead)
 	*pHead = prev; // 头指针的位置更新
 }
 
+// 改变链表结构，递归实现链表翻转
+Node* LinkListReverseRecursive(Node *pHead)
+{
+	if (pHead == nullptr || pHead->next == nullptr) {
+		return pHead;
+	}
+	else {
+		Node *newHead = LinkListReverseRecursive(pHead->next);
+		pHead->next->next = pHead;
+		pHead->next = nullptr;
+		return newHead;
+	}
+}
+
 int main()
 {
 	Node *head = nullptr;
 	AddToHead(&head, 1);
 	AddToHead(&head, 13);
 	AddToHead(&head, 6);
+
 	printList(head);
-	LinkListReverse(&head);
 	printListRecursive(head);
-	printListReverseRecursive(head);
+	printListReverse(head);
+	Node * newHead = LinkListReverseRecursive(head);
+	printList(newHead);
+
 	return 0;
 }
