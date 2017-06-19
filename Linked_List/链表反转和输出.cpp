@@ -32,7 +32,8 @@ void printList(Node *n)
 	cout << endl;
 }
 
-// 不修改链表，迭代逆序输出，使用栈实现
+// 不修改链表，迭代逆序输出
+// 递归的本质还是栈，所以可以用栈实现
 void printListReverse(Node *n)
 {
 	stack<Node*> s;
@@ -89,6 +90,8 @@ void LinkListReverse(Node **pHead)
 }
 
 // 改变链表结构，递归实现链表翻转
+// 递归实现必须返回新的头结点，不能直接修改头结点
+// 所以形参是头指针而非指针的指针
 Node* LinkListReverseRecursive(Node *pHead)
 {
 	if (pHead == nullptr || pHead->next == nullptr) {
@@ -96,6 +99,7 @@ Node* LinkListReverseRecursive(Node *pHead)
 	}
 	else {
 		Node *newHead = LinkListReverseRecursive(pHead->next);
+		// 从后往前更新节点next的指向
 		pHead->next->next = pHead;
 		pHead->next = nullptr;
 		return newHead;
