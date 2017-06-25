@@ -75,7 +75,8 @@ void printListReverseRecursive(Node *n)
 // 画出逻辑图更好理解代码流程
 void LinkListReverse(Node **pHead)
 {
-	if (pHead == nullptr) 
+	// 指针的指针要判断两层是否空指针
+	if (pHead == nullptr || *pHead == nullptr) 
 		return;
 	Node *current, *prev, *next;
 	current = *pHead;
