@@ -65,7 +65,9 @@ int win2(vector<int> arr)
 		// 当i+1=j时，有两个元素，结果是较大的那个
 		dp[i][i + 1] = max(arr[i], arr[i + 1]);
 	}
-	// 接下来把dp表的其他值(其实是左上三角)计算出来
+	// 有一个值在上一个循环不能取到值，单独赋值
+	dp[length - 1][length - 1] = arr[length - 1];
+	// 接下来计算dp表的其他值(只需计算左上三角)
 	// 这里循环变量k,i,j也不易理解：y=x+k,k是平移量，区间[2,length-1]
 	for (int k = 2; k < length; ++k) {
 		for (int j = k; j < length; ++j) {
@@ -82,7 +84,8 @@ int main()
 	// 如果先拿：5,3得到8；如果后拿：4,2得到6
 	// 因为不是先拿的人就一定最多，比如有三个数{1,300,1}无论先拿的人拿哪个，后拿的却更多
 	// 所以要看两种情况的最大值，最大的那个和是8
-	vector<int> arr  = {5,2,3,4};
+	//vector<int> arr  = {5,2,3,4};
+	vector<int> arr = { 71, 14, 51 };
 	cout << win2(arr) << endl;
 	return 0;
 }
